@@ -1,0 +1,5 @@
+# Pandoc-Einstellungen für Markdown → Word (WM-Formatvorlagen)
+# reference-doc wird in md2docx.sh gesetzt (absoluter Pfad)
+
+from: markdown
+to: docx

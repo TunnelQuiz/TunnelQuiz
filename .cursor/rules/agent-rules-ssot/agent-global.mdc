@@ -1,0 +1,56 @@
+---
+description: Agent File-over-AI — Session-Einstieg, Meta-Regel, Zuständigkeiten, Konventionen
+alwaysApply: true
+---
+
+# Agent Global
+
+SSOT-Root (Hetzner): `/opt/TunnelQuiz/.cursor/`
+Claude-Hooks: `/opt/TunnelQuiz/.claude/`
+
+Production-Live liegt auf **Netcup** unter `…/production/` — nicht auf diesem Host (`principles.md` §3.0).
+
+## Meta-Regel: Keine Redundanz
+
+Jede Information lebt in genau einer Datei. Andere Dateien verlinken (nur Pfad), nie nacherzählen. Gilt auch beim Pflegen dieser Dateien: Vor jedem Ergänzen prüfen, ob die Information schon irgendwo lebt — dann dort ändern, nicht kopieren.
+
+## Session-Start (einzige Definition — alle Agenten)
+
+Immer lesen:
+
+1. `brain/me.md`
+2. `brain/index-workspace.md`
+
+Trigger-basiert lesen:
+
+| Trigger | Lesen |
+|---------|-------|
+| Code ändern / committen / Architektur-Frage | `brain/principles.md` — bindend |
+| Symlinks, Agent-Anbindung, neues Projekt | `brain/index-agents.md` |
+| Git-Remote / neues Repo / Org-Transfer | `brain/index-agents.md` §GitHub |
+| Wiederkehrender Prozess | `brain/index-skills.md` → passenden Skill |
+| Planung / Todos | `workflow.mdc` §Todos |
+
+Pfade relativ zum SSOT-Root.
+
+## Zuständigkeiten der Dateien
+
+| Datei | Einziger Inhalt |
+|-------|-----------------|
+| `rules/agent-rules-ssot/agent-global.mdc` | Einstieg, Meta-Regel, Konventionen (diese Datei) |
+| `rules/agent-rules-ssot/praeferenzen.mdc` | Kommunikation mit Jeremiah |
+| `rules/agent-rules-ssot/workflow.mdc` | Arbeitsweise: Git, Todos, Dokumentation, Turn-Logging |
+| `brain/me.md` | Identität |
+| `brain/principles.md` | Architektur-Prinzipien (bindend) |
+| `brain/index-workspace.md` | Karte: wo liegt was (inkl. Ordnerlogik `data/files/`) |
+| `brain/index-agents.md` | Symlink-/SSOT-Mechanik, Agent-Anbindung |
+| `brain/index-skills.md` | Skill-Katalog |
+
+## Konventionen (einzige Definition)
+
+- Neue Repos unter `LauerTeam/` in PascalCase; Dateinamen kebab-case.md
+- Deutsch für Prosa, Englisch für Tech-Begriffe
+- Service-Repos (`*-domain-api`, `*-app-api`): **immer** `routes/logic/db` + `openapi.yaml` — bindend, keine Ausnahme (`brain/principles.md` §8)
+- Geheimnisse nie in Git (Details: `brain/principles.md` §4)
+- Keine `AGENTS.md` in Projekt-Repos; keine Cursor User Rules mit Agent-Kontext — Org-Root hält den SSOT, Projekte binden per Symlink an (`brain/index-agents.md`)
+- `BaseOS/` bleibt vanilla ohne Agent-SSOT, bis Jeremiah es ausdrücklich verlangt

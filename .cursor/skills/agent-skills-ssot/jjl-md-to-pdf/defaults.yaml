@@ -1,0 +1,26 @@
+# Pandoc-Einstellungen für juristisch-akademische Texte (WM, NJW, ZHR …)
+
+from: markdown
+to: pdf
+pdf-engine: xelatex
+
+variables:
+  documentclass: scrartcl
+  classoption: oneside
+  geometry: margin=2.5cm
+  fontsize: 11pt
+  lang: de-DE
+  mainfont: "Times New Roman"
+  sansfont: "Helvetica"
+  monofont: "Menlo"
+  colorlinks: "false"
+  linkcolor: black
+  urlcolor: black
+  header-includes:
+    - \usepackage{microtype}
+    - \usepackage{booktabs}
+    - \setlength{\parindent}{0pt}
+    - \setlength{\parskip}{0.6em}
+    - \RedeclareSectionCommand[beforeskip=1.5ex plus 0.5ex, afterskip=1ex plus 0.2ex]{section}
+    - \RedeclareSectionCommand[beforeskip=1.2ex plus 0.4ex, afterskip=0.8ex plus 0.2ex]{subsection}
+    - \RedeclareSectionCommand[beforeskip=1ex plus 0.3ex, afterskip=0.6ex plus 0.2ex]{subsubsection}

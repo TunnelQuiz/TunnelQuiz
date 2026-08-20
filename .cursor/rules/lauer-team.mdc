@@ -1,0 +1,48 @@
+---
+description: LauerTeam — Organisation (Apps + Domains)
+alwaysApply: true
+---
+
+# LauerTeam — Organisation
+
+Persönliche Projekte unter `/opt/TunnelQuiz/` — **Apps/** (GUI + ggf. eine App-API) und **Domains/** (Daten + Domain-API). GUI spricht nur die eigene App-API. Details: `/opt/TunnelQuiz/README.md`. ADR Domain-Split: `.cursor/brain/adr/0001-lauerteam-domain-split.md`. Agent-SSOT: `.cursor/brain/adr/0007-agent-ssot-org-root.md`.
+
+## Layout
+
+| Pfad | Rolle |
+|------|-------|
+| `Domains/myProjectsDomain/` | Todos, Projekt-Register |
+| `Domains/myAgentsDomain/` | Agent-Rechte, Runtime-API (kein File-Hub) |
+| `Domains/myBrainDomain/` | Dokumente / Wissen |
+| `Domains/myUserDomain/` | Identität, app-übergreifende Prefs |
+| `Domains/myOpsDomain/` | KPI, Quota, Health |
+| `Domains/myRoutinesDomain/` | Ablauf-Graphen |
+| `Domains/myGunsDomain/` | Waffenwissen |
+| `Domains/myDownloadsDomain/` | Binärdateien (Downloads) |
+| `Apps/myUIApp/` | Cockpit-GUI (`myUI-app-web`) + myUI-app-api — `https://myui.lauer.team` |
+| `Apps/myAgentsApp/` | myAgents-app-api (Sven), kein GUI — `https://myagents.lauer.team` |
+| `Apps/myGunsApp/` | GUI (`myGuns-app-web`) + myGuns-app-api — `https://myguns.lauer.team` |
+| `Apps/myDisplayApp/` | myDisplay-app-api + Pi/Web — `https://mydisplay.lauer.team` |
+| `Apps/myWidgetsApp/` | myWidgets-app-api + Scriptable-Vorlagen — `https://mywidgets.lauer.team` |
+| `Apps/myDownloadsApp/` | myDownloads-app-web + myDownloads-app-api (BFF) — `https://mydownloads.lauer.team` |
+| `Apps/tempui/` | Sandbox — `https://tempui.lauer.team` |
+
+## Hosts
+
+| Host | Projekt-Envs |
+|------|----------------|
+| **Hetzner** (dieser VPS) | nur `development/` · `staging/` |
+| **Netcup** | `production/` (Live) |
+
+Bindend: `principles.md` §3.0. Images: `principles.md` §3.5 · ADR `brain/adr/0009-ghcr-sha-images.md`.
+
+## Obsidian
+
+- Vault-Root: `/opt/TunnelQuiz/`
+- Mac: SSHFS-Mount auf diesen Pfad
+
+## Agent-Kontext
+
+- SSOT: `/opt/TunnelQuiz/.cursor/` (+ `.claude/` für Claude-Hooks)
+- Maps: `.cursor/brain/index-workspace.md`, `.cursor/brain/index-agents.md`
+- Projekte: `.cursor/rules/agent-rules-symlink` → Org-Root-SSOT

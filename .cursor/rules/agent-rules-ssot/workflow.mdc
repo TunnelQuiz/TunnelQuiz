@@ -1,0 +1,45 @@
+---
+description: Arbeitsweise aller Agenten — Git-Automatik, Todos, Dokumentation, Turn-Logging
+alwaysApply: true
+---
+
+# Workflow
+
+## Open Source > Self-Build
+
+Bevor wir etwas selbst bauen, überlege IMMER (feste Regel), ob wir stattdessen auch auf Open Source-Code zurückgreifen können. Überlege, ob es für unser Vorhaben schon Open Source Code geben könnte, suche danach und dann vergleiche die Vor- und Nachteile der gefundenen Open Source-Codes mit der Alternative, alles selbst zu bauen. Dann präsentiere mir die Lösung, Deine Empfehlung und eine kurze Begründung. Ich entscheide dann, welchen Weg wir gehen.
+
+## Git (vollautomatisch, ohne Rückfrage)
+
+1. Nach jeder abgeschlossenen, in sich sinnvollen Einheit committen — Conventional-Commits-Format `typ(bereich): beschreibung` (Typen: feat, fix, refactor, docs, chore, test). Direkt auf `main` arbeiten ist erlaubt.
+2. Automatisch pushen. Was ein Push bewirkt (Deploy oder nicht), regelt `brain/principles.md` 3.3.
+3. Bei größeren oder riskanteren Vorhaben: automatisch Branch öffnen (`feat/…`, `fix/…`), PR mit Zusammenfassung erstellen und bei grünen Checks automatisch mergen.
+4. Vor jedem Commit die Änderung gegen `brain/principles.md` §2 (Twelve-Factor) **und** §8 (Service-Architektur: `routes/logic/db` + `openapi.yaml`) abgleichen. Bei Verstoß: nicht committen — Konflikt benennen, Alternative vorschlagen.
+
+## Todos (SSOT = Postgres, Abruf nur via API — nie md-Snapshots)
+
+| Trigger | Aktion |
+|---------|--------|
+| Planung / "Was ist offen?" | `GET https://myui.lauer.team/api/reminders?status=active` |
+| Fälligkeits-Frage | `GET https://myui.lauer.team/api/reminders/due` |
+| User nennt ein Todo | `GET https://myui.lauer.team/api/reminders/<id>` → falls `detail_path` gesetzt: Datei unter `files/` lesen (direkt am VPS oder `GET /api/detail-file?path=…`) |
+| Arbeit in einem Projekt | zusätzlich die Todos der Projekt-API abrufen — Basis-URL: `GET https://myui.lauer.team/api/mc/projects`, Feld `api_base_url` |
+
+Nicht bei jedem Session-Start abrufen — nur bei diesen Triggern. Projektspezifische Todos leben in der DB des jeweiligen Projekts und werden ausschließlich über dessen API gelesen (`brain/principles.md` 1.5).
+
+## Dokumentation
+
+1. ADRs: Bei jeder Architektur-Entscheidung (Technologie-Wahl, Strukturänderung, Trade-off mit Langzeitfolgen) `docs/adr/NNNN-kurztitel.md` anlegen mit: Kontext, Entscheidung, Begründung, verworfene Alternativen. Aktiv vorschlagen, wenn eine Entscheidung ADR-würdig ist.
+2. Devlog: Nach jeder abgeschlossenen Aufgabe Eintrag in `DEVLOG.md` (append-only, neuester Eintrag oben): `## JJJJ-MM-TT – [Aufgabe]` + 2–4 Zeilen: was gemacht, was verworfen/gescheitert, offene Punkte. Verweise auf Commits/ADRs.
+3. Projekt-Doku: Wenn sich etwas geändert hat, immer die jeweilige Projekt-Doku mit aktualisieren.
+4. Geänderte Dateien im Status-Block der Antwort nennen (`praeferenzen.mdc` §Status-Block).
+
+## Org-File-Hub — Cross-Org-Sync (bindend)
+
+Jede Organisation hat eine **eigenständige** SSOT unter `/opt/<Org>/.cursor/` (LauerTeam, Company, TunnelQuiz, KiezQuiz). **Keine** Symlinks oder Imports von einer Org-SSOT in eine andere (Rip-out).
+
+Wenn du eine Datei unter der aktuellen Org-`.cursor/` änderst (Rules, `brain/`, Scripts, Skills, Hooks, MCP): **frage mich**, ob dieselbe Änderung auch in den anderen Org-File-Hubs landen soll — bevor du sie dort übernimmst. Ohne meine Zustimmung nur die aktuelle Org anfassen.
+
+## Turn-Logging
+
+Läuft deterministisch über VPS-Cron (`scripts/turn-log-sync.sh`, jede Minute), nicht über Prompt-Verhalten und nicht über IDE-Hooks: `scripts/turn-log/turn-log.py --sync` schreibt Index (`logs/agent-turns/JJJJ-MM-TT.jsonl`) und Volltext-Archiv (`logs/agent-turns/_archive/<session>/<turn>.json`). Verkabelung: `scripts/turn-log/README.md`. Agenten schreiben nie selbst nach `logs/` (`brain/index-workspace.md` §Ordnerlogik).
