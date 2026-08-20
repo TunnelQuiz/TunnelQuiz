@@ -2,7 +2,7 @@
 
 ## Kontext
 
-`principles.md` §3.0 legt Arbeit auf Hetzner (`development/` + `staging/`) und Live auf Netcup (`production/`). Bisher stand in §7.3 dasselbe Env-Schema für alle drei: `repos/` + `.env` + `data/`. Staging auf diesem Host hatte deshalb Git-Klone, obwohl der Laufzeitpfad Image-only sein soll.
+`principles.md` §3.0 legt Arbeit auf Hetzner (`development/` + `staging/`) und Live auf Netcup (`production/`). Staging auf diesem Host soll Image-only sein, kein zweiter Git-Klon. Gilt für TunnelQuiz (`Apps/tunnelQuizApp/` + `Domains/tunnelQuizDomain/`) wie für jede andere Org.
 
 ## Entscheidung
 

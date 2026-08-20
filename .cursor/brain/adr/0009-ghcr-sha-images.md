@@ -6,16 +6,16 @@
 
 ## Kontext
 
-Staging/Production sollen Image-only laufen (`principles.md` §3.3). Compose nutzte lokale Namen `lauer-<repo>:local` / `:latest`. Die Images liegen nur auf dem Build-Host — Netcup kann sie nicht pullen.
+Staging/Production sollen Image-only laufen (`principles.md` §3.3). Compose darf keine nur-lokalen Namen (`:local` / `:latest`) als Dauer-SSOT nutzen — Netcup kann die dann nicht pullen.
 
 ## Entscheidung
 
 | Teil | Wert |
 |---|---|
 | Registry | GitHub Container Registry |
-| Name | `ghcr.io/tunnelquiz/<repo-lowercase>` — `<repo>` = GitHub-Repo (`myUI-app-api` → `myui-app-api`); Namespace = Org `TunnelQuiz` (ADR 0010) |
+| Name | `ghcr.io/tunnelquiz/<repo-lowercase>` — `<repo>` = GitHub-Repo (`tunnelQuiz-app-api` → `tunnelquiz-app-api`); Namespace = Org `TunnelQuiz` (ADR 0010) |
 | Tag | **voller Git-Commit-SHA** der gebauten Codebase, in `.env` als `*_IMAGE_TAG` |
-| Verboten | `:latest`, `:local`, unversionierte Tags, anderes Registry-Schema für LauerTeam-App-Images |
+| Verboten | `:latest`, `:local`, unversionierte Tags, anderes Registry-Schema für TunnelQuiz-App-Images |
 | Basis-Images | weiter pinnen (`postgres:16`, `nginx:1.27-alpine`) |
 
 **Dev (Hetzner `development/`):** `docker compose --build` im Repo. Das Compose-`image:` ist bereits der GHCR-Name + SHA-Tag — lokal bauen taggt denselben Namen (Staging auf demselben Host braucht dann keinen Pull).
@@ -34,9 +34,10 @@ Gleiche Image-Identität auf beiden Hosts. SHA ist reproduzierbar und rollback-f
 
 | Alternative | Warum nicht |
 |---|---|
-| `lauer-*` nur lokal, `docker save` nach Netcup | kein Registry-SSOT, manuell, bricht §3.3 |
+| nur lokal, `docker save` nach Netcup | kein Registry-SSOT, manuell, bricht §3.3 |
 | Tag = SemVer / `v1` | weniger präzise als Commit; SHA bleibt erlaubt als einziges App-Tag |
 | `:latest` plus Digest in Doku | Compose würde trotzdem gleiten |
+| Images unter `ghcr.io/lauerteam` | das ist LauerTeam, nicht TunnelQuiz |
 
 ## Folgen
 

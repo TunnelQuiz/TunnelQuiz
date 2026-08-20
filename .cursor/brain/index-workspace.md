@@ -1,23 +1,22 @@
-# Workspace Index — LauerTeam / File-Hub
+# Workspace Index — TunnelQuiz / File-Hub
 
 > Reine Karte: Wo liegt was? Wie hängt das System zusammen?
 > **File-Hub** = `/opt/TunnelQuiz/.cursor/` (brain, Rules, Skills, Logs, Scripts) + `/opt/TunnelQuiz/.claude/` (Claude-Hooks).
+> Diese Org ist **nicht** LauerTeam: **1 App + 1 Domain** (Gold-Standard).
 
 ---
 
 ## System in einem Satz
 
-**File-over-AI:** Identität, Navigation und Prozesse in Markdown. Jedes KI-Tool liest dieselben Maps. Strukturierte Fakten leben in der **Postgres der jeweiligen Domain** — nicht in duplizierten md-Indizes. God-Domain abgelöst (ADR `brain/adr/0001-lauerteam-domain-split.md`).
+**TunnelQuiz:** Hamburg U/S-Bahn lernen auf der Karte. File-over-AI am Org-Root. Fakten in der **Postgres der Domain**. GUI spricht nur die App-API (ADR `brain/adr/0001-lauerteam-domain-split.md`).
 
 ```
-Tools (Cursor, Claude, Sven, …)
+Tools (Cursor, Claude, …)
         │ liest Org-Root .cursor/rules + .cursor/brain/
         ▼
 brain/  — Maps (me, workspace, agents, skills, principles)
         │
-Domain-Dateien — documents (myBrain) · todos (myProjects) · routinen (myRoutines)
-        │
-Postgres je Domain — Todos, Routinen, Register, Telemetrie
+tunnelQuizDomain data/files/ + Postgres
 ```
 
 ---
@@ -33,7 +32,7 @@ Bindend: `principles.md` §3.0.
 
 Kein Projekt-`production/` auf Hetzner. Deploy auf Netcup = Image pullen + `docker-compose.yml` + `.env` + `data/` (kein Source-Tree). Staging auf Hetzner ebenso Image-only; nur `development/` hat `repos/`. Staging/Prod-Images: `ghcr.io/tunnelquiz/<repo>:<git-sha>` (ADR `brain/adr/0009-ghcr-sha-images.md` · `0010-github-org-lauerteam.md`).
 
-**Hostnamen-Cutover:** beide VPS nutzen `myui` / `myagents` / `mywidgets` / `mydisplay` / `mydownloads.lauer.team` (ADR `brain/adr/0002-nomenklatur-ohne-myos.md`). Production-A-Records → Netcup private Tailscale-IP `100.92.81.26`. Hetzner nur `dev.*` / `staging.*`.
+**Hostnamen:** Production `https://tunnelquiz.lauer.team`. Dev `https://dev.tunnelquiz.lauer.team`. Staging `https://staging.tunnelquiz.lauer.team`. Production-A-Records → Netcup private Tailscale-IP `100.92.81.26`. Hetzner nur `dev.*` / `staging.*` (ADR `brain/adr/0002-nomenklatur-ohne-myos.md`).
 
 ---
 
@@ -43,61 +42,42 @@ Kein Projekt-`production/` auf Hetzner. Deploy auf Netcup = Image pullen + `dock
 /opt/
 ├── _server/production/     ← Ops-Stack (Caddy/Compose); Hetzner: Slim via docker-compose.hetzner.yml
 ├── _dotfiles/              ← User jjl (SSH, Git, Shell)
-├── Company/                ← Domains/ + Apps/ (siehe Company/README.md)
-├── LauerTeam/              ← Org-Root (.cursor/ File-Hub, .obsidian/ — Vault)
-│   ├── _TEMP/              ← leer (README); Cutover-Kopien entfernt 2026-08-18
-│   ├── Apps/<App>/{development,staging}/     ← Hetzner (data/files = Dummy)
-│   │                 {production}/           ← nur Netcup
-│   └── Domains/<Domain>/…
-├── KiezQuiz/<Projekt>/…
-├── TunnelQuiz/
+├── TunnelQuiz/                    ← diese Org (File-Hub + 1 App + 1 Domain)
+│   ├── Apps/tunnelQuizApp/{development,staging}/   ← Hetzner (data/ = Dummy)
+│   │              {production}/            ← nur Netcup
+│   └── Domains/tunnelQuizDomain/…
+├── LauerTeam/ · Company/ · Azubuilder/ · KiezQuiz/
+├── BottleBuddy/ · TunnelQuiz/ · UniversalView/ · Volea/
 └── _backups/
 ```
 
 Layout: `principles.md` 7.3 · Org: `/opt/TunnelQuiz/README.md`.
 
-**`_TEMP`:** nach Cutover geleert (nur README). Live-Dateien: Netcup `production/data/files/`. Langzeit: Restic + `/opt/_backups/netcup-cutover-2026-08-18/`.
-
 ---
 
-## LauerTeam — Ziel-Schnitt (kein God-Domain)
+## TunnelQuiz — ein App+Domain-Paar
 
 ADRs: `brain/adr/0001-lauerteam-domain-split.md` · `0007-agent-ssot-org-root.md` · `0008-hetzner-dev-clone-staging-image.md` · `0009-ghcr-sha-images.md` · `0010-github-org-lauerteam.md`. Soft Facts: `brain/adr/0006-soft-facts-ownership.md` + `principles.md` §1.6.
 
-**File-Hub-SSOT:** `/opt/TunnelQuiz/.cursor/` (+ `.claude/`). Git: `LauerTeam/LauerTeam` (Working-Tree = Org-Root, nur diese Pfade).
+**File-Hub-SSOT:** `/opt/TunnelQuiz/.cursor/` (+ `.claude/`). Git: `TunnelQuiz/TunnelQuiz` (Working-Tree = Org-Root, nur `.cursor/` + `.claude/` + README).
 
-GUI spricht nur die eigene App-API; erst die App-API ruft Domain- oder andere App-APIs.
+GUI spricht nur die eigene App-API; die App-API ruft die Domain-API.
 
-| Domain | API | Besitz |
-|--------|-----|--------|
-| myProjectsDomain | myProjects-domain-api | Todos, Projekt-Register |
-| myAgentsDomain | myAgents-domain-api | Agent-Rechte, Runtime-API (kein File-Hub) |
-| myBrainDomain | myBrain-domain-api | Dokumente / Wissen |
-| myUserDomain | myUser-domain-api | Identität, app-übergreifende Prefs |
-| myOpsDomain | myOps-domain-api | KPI, Quota, Health-Snapshots |
-| myRoutinesDomain | myRoutines-domain-api | Ablauf-Graphen, Läufe |
-| myGunsDomain | myGuns-domain-api | Waffenwissen |
-| myDownloadsDomain | myDownloads-domain-api | Binärdateien (Downloads) |
+| Zone | Pfad | Services | Besitz |
+|------|------|----------|--------|
+| Domain | `Domains/tunnelQuizDomain/` | `tunnelQuiz-domain-api` + Postgres (`tunnelquiz-domain-db`) | Fachdaten, Invarianten |
+| App | `Apps/tunnelQuizApp/` | `tunnelQuiz-app-web` (GUI) + `tunnelQuiz-app-api` (BFF) | Oberfläche, Aggregation |
 
-| App | GUI | App-API |
-|-----|-----|---------|
-| myUIApp | ja (Cockpit, `myUI-app-web`) | myUI-app-api |
-| myAgentsApp | nein | myAgents-app-api (Sven) |
-| myGunsApp | ja (`myGuns-app-web`) | myGuns-app-api |
-| myDisplayApp | ja (`myDisplay-app-web` / `-pi`) | myDisplay-app-api |
-| myWidgetsApp | nein (`-scriptables`) | myWidgets-app-api |
-| myDownloadsApp | ja (`myDownloads-app-web`) | myDownloads-app-api |
+**Öffentlich:** `https://tunnelquiz.lauer.team`
 
 **Wissens-Trennung:**
 - Agent-übergreifend → `/opt/TunnelQuiz/.cursor/` (brain, skills, logs, scripts)
-- Dokumente → myBrainDomain `data/files/documents/` (Hetzner: Dummy; Live: Netcup)
-- Todo-Notizen → myProjectsDomain `data/files/todos/` (Hetzner: Dummy; Live: Netcup)
-- Routinen-Knoten → myRoutinesDomain `data/files/routinen/` (Hetzner: Dummy; Live: Netcup)
+- Domain-Dateien → `tunnelQuizDomain` `data/files/` (Hetzner: Dummy; Live: Netcup)
 - Projekt-spezifisch → im jeweiligen `repos/` + `.cursor/rules`
 
 ---
 
-## Dateien je Domain (einzige Definition)
+## Dateien (einzige Definition)
 
 | Ort | Inhalt |
 |-----|--------|
@@ -106,54 +86,26 @@ GUI spricht nur die eigene App-API; erst die App-API ruft Domain- oder andere Ap
 | **Org-Root** `.cursor/scripts/` | Symlink-Install, Turn-Log, Verify |
 | **Org-Root** `.cursor/logs/` | Turn-Logs (System schreibt) |
 | **Org-Root** `.claude/hooks/` | Claude-Code-Hooks |
-| **myBrainDomain** `data/files/documents/` | Passives Wissen (Live: Netcup `production/`) |
-| **myProjectsDomain** `data/files/todos/` | Zusatzinfos zu Postgres-Todos (`detail_path`) |
-| **myRoutinesDomain** `data/files/routinen/` | Hermetische `.py`-Knoten |
-
-**Entfernt:** `uploads/`, `atlas/` als Dateiordner (Inhalt → `documents/`); `system/` (→ `documents/`).
-
-**Nicht verwechseln:** MC-Tab „Atlas" (UI/JSON) ≠ Dateiordner.
+| **tunnelQuizDomain** `data/files/` | Domain-Dateien (Live: Netcup `production/`) |
+| **tunnelQuizDomain** `data/database/` | Postgres-Volume |
 
 ---
 
-## Projekte unter `/opt/` (Stand 2026-08-18)
+## Projekte unter `/opt/TunnelQuiz/`
 
-### LauerTeam — Apps
-
-| Pfad | Rolle |
-|------|-------|
-| `LauerTeam/Apps/myUIApp/` | myUI-app-web + myUI-app-api — `https://myui.lauer.team` |
-| `LauerTeam/Apps/myAgentsApp/` | myAgents-app-api (kein GUI), Telegram, Agent-Runner — `https://myagents.lauer.team` |
-| `LauerTeam/Apps/myGunsApp/` | myGuns-app-web + myGuns-app-api — `https://myguns.lauer.team` |
-| `LauerTeam/Apps/myDisplayApp/` | Pi-Dashboard — `https://mydisplay.lauer.team` |
-| `LauerTeam/Apps/myWidgetsApp/` | Scriptable-Vorlagen + App-API · `https://mywidgets.lauer.team` |
-| `LauerTeam/Apps/myDownloadsApp/` | myDownloads-app-web + myDownloads-app-api — `https://mydownloads.lauer.team` |
-| `LauerTeam/Apps/tempui/` | UI-Sandbox — `https://tempui.lauer.team` |
-
-### LauerTeam — Domains
+### App
 
 | Pfad | Rolle |
 |------|-------|
-| `LauerTeam/Domains/myProjectsDomain/` | Todos, Projekt-Register |
-| `LauerTeam/Domains/myAgentsDomain/` | Agent-Rechte, Runtime-API |
-| `LauerTeam/Domains/myBrainDomain/` | Dokumente / Wissen |
-| `LauerTeam/Domains/myUserDomain/` | Identität, app-übergreifende Prefs |
-| `LauerTeam/Domains/myOpsDomain/` | KPI, Quota, Health |
-| `LauerTeam/Domains/myRoutinesDomain/` | Ablauf-Graphen |
-| `LauerTeam/Domains/myGunsDomain/` | myGuns-domain-api (intern, Docker-DNS) |
-| `LauerTeam/Domains/myDownloadsDomain/` | Binärdateien (Downloads) |
+| `TunnelQuiz/Apps/tunnelQuizApp/` | `tunnelQuiz-app-web` + `tunnelQuiz-app-api` — `https://tunnelquiz.lauer.team` |
 
-### Weitere Orgs
+### Domain
 
 | Pfad | Rolle |
 |------|-------|
-| `_server/production/` | Caddy, Plattform |
-| `TunnelQuiz/` | Lern-App Bauzeichner-Azubis — `https://azubuilder.de` (Apps/ + Domains/) |
-| `KiezQuiz/Apps/` | Spieler-SPA + BFF, Kalle-Bot/Ops |
-| `KiezQuiz/Domains/` | User, Game, Ops, Assets (Brand Guidelines `https://kiezquizdesign.lauer.team`) |
-| `Company/Apps/*` · `Company/Domains/*` | siehe `Company/README.md` |
+| `TunnelQuiz/Domains/tunnelQuizDomain/` | `tunnelQuiz-domain-api` + Postgres (intern, Docker-DNS `tunnelquiz-domain-api`) |
 
-Eigenständigkeit und API-only: `principles.md` 1.5 · Org-README: `LauerTeam/README.md`.
+Eigenständigkeit und API-only: `principles.md` 1.5 · Org-README: `TunnelQuiz/README.md`.
 
 ---
 
@@ -175,7 +127,7 @@ Eigenständigkeit und API-only: `principles.md` 1.5 · Org-README: `LauerTeam/RE
 
 ## Pflege (alle 2–4 Wochen)
 
-- [ ] `index-workspace.md` — neue Projekte/Ordner?
+- [ ] `index-workspace.md` — App/Domain/Repos aktuell?
 - [ ] `index-skills.md` — Skills aktuell, Veraltetes archiviert?
 - [ ] `me.md` — noch passend?
 - [ ] Pfade in Skills stimmen mit `/opt/` überein?

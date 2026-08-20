@@ -1,6 +1,12 @@
 # DEVLOG — File-Hub / Agent-SSOT
 
-## 2026-08-19 – Widgets live: Quota + KPI Hetzner/Netcup
+> Einträge **vor 2026-08-20** stammen aus der LauerTeam-Kopie (rsync). Sie beschreiben **nicht** TunnelQuiz (kein myWidgets/myOS-Cutover dieser Org).
+
+## 2026-08-20 – File-Hub von LauerTeam-Kopie auf TunnelQuiz umgeschrieben
+
+ADR 0001/0002 org-spezifisch (1 App `tunnelQuizApp` + 1 Domain `tunnelQuizDomain`). GHCR `ghcr.io/tunnelquiz`, GitHub `TunnelQuiz`. Public URL `https://tunnelquiz.lauer.team`. Hetzner = development/staging, Netcup = production. Skills nicht gelöscht.
+
+## 2026-08-19 – (LauerTeam-Kopie, nicht diese Org) Widgets live: Quota + KPI Hetzner/Netcup
 
 Production-myWidgets auf Netcup liest KPI Hetzner von 24/7-myOps-Sammler `staging.myops.lauer.team` (Hetzner, kein Projekt-`production/`). Cursor-Token auf Netcup-myOps gesetzt. Dev/Staging bleiben aus.
 
@@ -16,11 +22,11 @@ Auftrag für nächsten Agenten: nur Plan (Prüfen + Korrigieren von `routes/logi
 
 Nur Sven-Gerüst (0-Byte `.env`/`config.json`, leeres `data/files/`). Kein Mount, keine Nutzdaten. Live bleibt `/opt/TunnelQuiz/`. Altdaten weiter in `_backups/hetzner-production-20260805/`.
 
-## 2026-08-19 – GitHub-Org und Org-Root-Repo: LauerTeam
+## 2026-08-19 – (LauerTeam-Kopie) GitHub-Org — für TunnelQuiz gilt `TunnelQuiz` / `ghcr.io/tunnelquiz` (ADR 0010, 2026-08-20)
 
 Org `Lauer-Team` → `LauerTeam`; Repo `file-hub` → `LauerTeam`. GHCR: `ghcr.io/tunnelquiz/<repo>:<sha>` (kein Redirect vom alten Namespace). ADR 0010. Compose auf Hetzner-Staging und Netcup-Production nachgezogen.
 
-## 2026-08-18 – Netcup-Cutover Apps/Domains
+## 2026-08-18 – (LauerTeam-Kopie, nicht diese Org) Netcup-Cutover Apps/Domains
 
 Live auf Netcup: `/opt/TunnelQuiz/{Apps,Domains}/*/production/` (GHCR-SHA, image-only). myOS-Fakten per ETL in Domain-DBs; Guns/Display/Sven dump-restore. DNS/Caddy auf `myui`/`myagents`/… → `100.92.81.26`. Alter Baum: `/opt/_backups/netcup-myos-quarantine-2026-08-18/` plus `/opt/_backups/netcup-cutover-2026-08-18/`. GitHub `myOS-backend` archiviert. TunnelQuiz unter `/opt/Lauer-Team/TunnelQuiz` unangetastet.
 
