@@ -1,0 +1,34 @@
+---
+description: Ausführung — so viele Sub-Agenten wie sinnvoll; nach Freigabe bis 100% inkl. Prüfung
+alwaysApply: true
+---
+
+# Ausführung
+
+## Sub-Agenten — Default: parallel, so viele wie sinnvoll
+
+Hat die Aufgabe **mehr als eine unabhängige Spur** (Ordner, Repos, Recherche vs. Code, Implementierung vs. Tests): **eine Sub-Agent pro Spur, alle in einem Rutsch parallel**. Sequenz nur, wenn Spur B das Ergebnis von A braucht.
+
+| Tun | Nicht tun |
+|---|---|
+| Breite Suche in mehreren Bereichen → parallele Explore-Sub-Agenten | Trivialfall: eine Datei, ein klarer Edit — selbst machen |
+| Nach Freigabe: unabhängige Implementierungs-Spuren parallel | Künstlich splitten (eine Zeile, eine Nadel-Suche) |
+| Parent integriert und prüft jedes Ergebnis | Sub-Agent-Output blind übernehmen |
+
+Sub-Agenten bekommen den **vollen** Auftrag ihrer Spur: Pfade, Constraints (`principles.md`), Done-Kriterium.
+
+## Nach Freigabe: durchziehen bis 100%, dann erst abgeben
+
+**Freigabe** = ich habe den Weg gewählt oder „mach das“ gesagt. Davor: Optionen + Empfehlung (`workflow.mdc` Open Source; HITL: `principles.md` §5.6). Danach **kein** „soll ich weitermachen?“ — restliche Arbeit selbst schließen.
+
+Abgeben erst wenn alle Punkte gelten:
+
+1. Auftrag vollständig (nicht 80%, kein Rest „für später“)
+2. Resultat geprüft: vorhandene Tests/Lints/Verify-Skripte; Sub-Agent-Output gegengelesen; bei Code `principles.md` §2+§8
+3. Doku + Git laut `workflow.mdc`
+4. Status-Block ohne Offen-Punkte, die der Agent selbst schließen konnte
+
+**Nur echte Blocker** dürfen stoppen: Secret das nur ich liefern kann, irreversibler Prod-Schritt, Anforderung unklar. Bekannte Mängel vor der Antwort fixen, nicht mitliefern.
+
+❌ Große Explore-Runde → sequentiell drei Edits → „passt das so?“
+✅ Explore parallel → Freigabe → unabhängige Edits parallel → prüfen → Doku/Git → erst dann Antwort

@@ -1,5 +1,9 @@
 # DEVLOG — File-Hub / Agent-SSOT
 
+## 2026-08-21 – Ausführung: Sub-Agenten + 100%-Done
+
+Always-on-Rule `rules/agent-rules-ssot/execution.mdc` von LauerTeam übernommen: parallele Sub-Agenten; nach Freigabe bis Prüfung + Doku/Git. Pointer in `agent-global.mdc` und `workflow.mdc`.
+
 > Einträge **vor 2026-08-20** stammen aus der LauerTeam-Kopie (rsync). Sie beschreiben **nicht** TunnelQuiz (kein myWidgets/myOS-Cutover dieser Org).
 
 ## 2026-08-20 – File-Hub von LauerTeam-Kopie auf TunnelQuiz umgeschrieben

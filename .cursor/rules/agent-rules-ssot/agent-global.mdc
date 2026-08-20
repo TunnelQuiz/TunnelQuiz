@@ -40,6 +40,7 @@ Pfade relativ zum SSOT-Root.
 | `rules/agent-rules-ssot/agent-global.mdc` | Einstieg, Meta-Regel, Konventionen (diese Datei) |
 | `rules/agent-rules-ssot/praeferenzen.mdc` | Kommunikation mit Jeremiah |
 | `rules/agent-rules-ssot/workflow.mdc` | Arbeitsweise: Git, Todos, Dokumentation, Turn-Logging |
+| `rules/agent-rules-ssot/execution.mdc` | Ausführung: Sub-Agenten parallel, 100%-Done nach Freigabe |
 | `brain/me.md` | Identität |
 | `brain/principles.md` | Architektur-Prinzipien (bindend) |
 | `brain/index-workspace.md` | Karte: wo liegt was (inkl. Ordnerlogik `data/files/`) |

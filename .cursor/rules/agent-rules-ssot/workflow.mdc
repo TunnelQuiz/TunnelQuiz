@@ -1,5 +1,5 @@
 ---
-description: Arbeitsweise aller Agenten — Git-Automatik, Todos, Dokumentation, Turn-Logging
+description: Arbeitsweise aller Agenten — Git-Automatik, Todos, Dokumentation, Turn-Logging; Ausführung siehe execution.mdc
 alwaysApply: true
 ---
 
@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## Open Source > Self-Build
 
-Bevor wir etwas selbst bauen, überlege IMMER (feste Regel), ob wir stattdessen auch auf Open Source-Code zurückgreifen können. Überlege, ob es für unser Vorhaben schon Open Source Code geben könnte, suche danach und dann vergleiche die Vor- und Nachteile der gefundenen Open Source-Codes mit der Alternative, alles selbst zu bauen. Dann präsentiere mir die Lösung, Deine Empfehlung und eine kurze Begründung. Ich entscheide dann, welchen Weg wir gehen.
+Bevor wir etwas selbst bauen, überlege IMMER (feste Regel), ob wir stattdessen auch auf Open Source-Code zurückgreifen können. Überlege, ob es für unser Vorhaben schon Open Source Code geben könnte, suche danach und dann vergleiche die Vor- und Nachteile der gefundenen Open Source-Codes mit der Alternative, alles selbst zu bauen. Dann präsentiere mir die Lösung, Deine Empfehlung und eine kurze Begründung. Ich entscheide dann, welchen Weg wir gehen. Danach gilt `execution.mdc` (durchziehen bis 100%).
 
 ## Git (vollautomatisch, ohne Rückfrage)
 
