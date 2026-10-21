@@ -1,5 +1,11 @@
 # DEVLOG — File-Hub / Agent-SSOT
 
+## 2026-10-21 – myDisplay: Limit pro Client-IP, Server-HEAD auf origin/master
+
+API `2cda3e91c4d4acf8c678d7c6b5d15e202e740c3a` → `4075682ef4bda69cbabf0cd32c5194f6483600dd` (PR #2 per Fast-Forward auf master, GHCR grün). Nur `mydisplay-app-api`. Verify: 401 / 401 / 200 (Datum 2026-10-21) / 404 / 404 / 404, Tailnet 200. Rate-Limit: eine Test-IP 30×200 dann 429, andere IP 200; der eigene öffentliche Abruf bleibt 200.
+
+Server-HEAD `04ea6c19` → `69668c3` (origin/master). Arbeitsbaum bytegleich, Caddy-adapt identisch, kein Reload. Lokaler Commit bleibt als `backup/netcup-server-04ea6c1-20261021`. Backup: `/home/jjl/.config/server-repo-backup-20261021/`.
+
 ## 2026-08-21 – Ausführung: Sub-Agenten + 100%-Done
 
 Always-on-Rule `rules/agent-rules-ssot/execution.mdc` von LauerTeam übernommen: parallele Sub-Agenten; nach Freigabe bis Prüfung + Doku/Git. Pointer in `agent-global.mdc` und `workflow.mdc`.
