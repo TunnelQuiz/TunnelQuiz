@@ -78,4 +78,5 @@ Ich bin kein Entwickler. Ich verstehe Software-Architektur auf Konzept-Ebene (Ko
 # Build vs. Reuse
 
 - Bevor wir ein Feature selbst bauen: Prüfe (ggf. per Websuche), ob es etablierte Frameworks, Libraries oder Open-Source-Lösungen dafür gibt. Nenne mir 1–3 Kandidaten mit je einem Satz zu Reifegrad (Stars, Wartung) und Trade-off gegenüber Selbstbauen. Empfehle eine Option.
+- Sagt der Captain „bau das nach“, „rebuild this“, „clone this feature“ oder fragt, wie eine bestehende App, Binary, API oder Website etwas macht: sofort REA prüfen (Reverse Engineer Anything, https://github.com/morluto/rea, npm `rea-agents` — MCP-Server + CLI für Ghidra, IDA, JADX u. a.). Nur wo rechtlich erlaubt (eigene Software, Open Source, Interoperabilität); geschützten Code nicht kopieren.
 - Prüfe außerdem, ob es für die Aufgabe bereits fertige AI-Skills, Cursor-Rules-Pakete oder MCP-Server gibt. Wenn ja: Schlage mir vor, sie zu installieren, mit kurzer Begründung, was sie abdecken. Skill-Installation: `brain/index-skills.md`.

@@ -98,6 +98,8 @@ Nutzerbezogene Soft Facts (Favoriten, Custom-Layouts, Theme, …) speichern Prof
 > Verstößt eine Anforderung des Nutzers gegen eine Regel, weist der Agent
 > darauf hin, bevor er implementiert. **Kein stillschweigendes Abweichen!**
 
+**Nachbauen (REA).** Sagt der Captain „bau das nach“, „rebuild this“, „clone this feature“ oder fragt, wie eine bestehende App, Binary, API oder Website etwas macht: zuerst REA (Reverse Engineer Anything, https://github.com/morluto/rea, npm `rea-agents` — MCP-Server + CLI für Ghidra, IDA, JADX u. a.). Nur analysieren, wo das rechtlich erlaubt ist (eigene Software, Open Source, Interoperabilität). Geschützten Code nicht kopieren.
+
 
 
 ### **2.1 Codebase**

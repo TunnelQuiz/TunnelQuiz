@@ -9,6 +9,8 @@ alwaysApply: true
 
 Bevor wir etwas selbst bauen, überlege IMMER (feste Regel), ob wir stattdessen auch auf Open Source-Code zurückgreifen können. Überlege, ob es für unser Vorhaben schon Open Source Code geben könnte, suche danach und dann vergleiche die Vor- und Nachteile der gefundenen Open Source-Codes mit der Alternative, alles selbst zu bauen. Dann präsentiere mir die Lösung, Deine Empfehlung und eine kurze Begründung. Ich entscheide dann, welchen Weg wir gehen. Danach gilt `execution.mdc` (durchziehen bis 100%).
 
+Sagt der Captain „bau das nach“, „rebuild this“, „clone this feature“ oder fragt, wie eine bestehende App, Binary, API oder Website etwas macht: sofort REA prüfen (Reverse Engineer Anything, https://github.com/morluto/rea, npm-Paket `rea-agents` — MCP-Server + CLI, damit Coding-Agenten Ghidra, IDA, JADX u. a. steuern). Nur Software analysieren, wo das rechtlich erlaubt ist (eigene Software, Open Source, Interoperabilität). Geschützten Code nicht kopieren.
+
 ## Git (vollautomatisch, ohne Rückfrage)
 
 1. Nach jeder abgeschlossenen, in sich sinnvollen Einheit committen — Conventional-Commits-Format `typ(bereich): beschreibung` (Typen: feat, fix, refactor, docs, chore, test). Direkt auf `main` arbeiten ist erlaubt.
