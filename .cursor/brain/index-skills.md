@@ -42,6 +42,10 @@ Neu anlegen: `skills/agent-skills-ssot/create-skill.md`
 
 | Skill | Ort |
 |-------|-----|
+| **Spec klären** | `spec-klaeren/SKILL.md` — vor dem Bauen, wenn Ziel oder Wörter unklar sind |
+| **Prüfung frisch** | `review-frisch/SKILL.md` — nach dem Bauen: zwei frische Agents, Spec und Regeln getrennt |
+| **PR-Beschreibung** | `pr-beschreibung/SKILL.md` — Änderung, Test, Merge-Risiko; mergen bei grünen Checks, Netcup nur mit Freigabe |
+| **Rückblick** | `rueckblick/SKILL.md` — am Ende: Vorschläge für Regeln, Lint, Doku; nichts selbst ändern |
 | **UI/UX Pro Max** | `ui-ux-pro-max/SKILL.md` |
 | **Obsidian** (offiziell, kepano) | Quelle: [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
 | ↳ `obsidian-markdown` | `obsidian-markdown/SKILL.md` — OFM, Wikilinks, Callouts, Properties |
