@@ -26,7 +26,7 @@ Kommunikation: **GUI → App-API → Domain-API**.
 | Host | Environments |
 |------|----------------|
 | **Hetzner** | `development/` · `staging/` |
-| **Netcup** | `production/` — Live (noch nicht angelegt) |
+| **Netcup** | `production/` — Live-Hülle (Compose + `.env`; Nutzdaten folgen, wenn die App live geht) |
 
 ## URLs (vorgesehen)
 
